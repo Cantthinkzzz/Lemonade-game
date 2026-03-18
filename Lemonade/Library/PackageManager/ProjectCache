@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 639094643836163030
-    m_Hash: 3478796464
+      ticks: 639094662578571746
+    m_Hash: 2981310231
   m_LockFileStatus:
     m_FilePath: C:/Users/korisnik/Documents/GitHub/Lemonade-game/Lemonade/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 639094643836208134
-    m_Hash: 855931737
+      ticks: 639094662578581752
+    m_Hash: 295049911
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
