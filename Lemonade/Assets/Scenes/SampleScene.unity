@@ -294,7 +294,6 @@ GameObject:
   - component: {fileID: 923850999}
   - component: {fileID: 923850998}
   - component: {fileID: 923851000}
-  - component: {fileID: 923851001}
   m_Layer: 0
   m_Name: sprite renderer
   m_TagString: Untagged
@@ -408,19 +407,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &923851001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 923850996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
 --- !u!1 &939403067
 GameObject:
   m_ObjectHideFlags: 3
@@ -782,7 +768,7 @@ GameObject:
   - component: {fileID: 1380513094}
   - component: {fileID: 1380513098}
   - component: {fileID: 1380513096}
-  - component: {fileID: 1380513095}
+  - component: {fileID: 1380513099}
   m_Layer: 0
   m_Name: sprite shadow
   m_TagString: Untagged
@@ -805,19 +791,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 923850997}
   m_LocalEulerAnglesHint: {x: -67.071, y: 183.985, z: -353.62}
---- !u!114 &1380513095
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1380513093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
 --- !u!95 &1380513096
 Animator:
   serializedVersion: 5
@@ -891,6 +864,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1380513099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380513093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25ab873bfcd67f94aaab1c27f0504a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isWalking: 0
 --- !u!1 &1479424271
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,7 +891,6 @@ GameObject:
   - component: {fileID: 1479424275}
   - component: {fileID: 1479424277}
   - component: {fileID: 1479424276}
-  - component: {fileID: 1479424278}
   m_Layer: 0
   m_Name: Timmy
   m_TagString: Untagged
@@ -956,7 +941,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -1059050772, guid: 7201699288da8ed48828d17fc6b2941d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.64, y: 0.74}
@@ -1059,19 +1044,6 @@ MonoBehaviour:
   stopDistance: 5
   flipWhenMovingToB: 1
   startAtA: 1
---- !u!114 &1479424278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1479424271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38f48a8d66b2adc46887f23a3a88ac01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
 --- !u!195 &1482639724
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1109,7 +1081,9 @@ MonoBehaviour:
   cam: {fileID: 1323387325}
   player: {fileID: 1482639724}
   playerAnimator: {fileID: 923851000}
+  shadowAnimator: {fileID: 1380513096}
   targetDest: {fileID: 1672188259}
+  isWalking: 0
 --- !u!1 &1665612048
 GameObject:
   m_ObjectHideFlags: 0

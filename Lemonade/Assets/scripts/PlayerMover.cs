@@ -10,7 +10,10 @@ public class CharacterControl : MonoBehaviour
     public Camera cam;
     public NavMeshAgent player;
     public Animator playerAnimator;
+    public Animator shadowAnimator;
     public GameObject targetDest;
+
+    public bool isWalking;
    
 
 
@@ -36,10 +39,15 @@ public class CharacterControl : MonoBehaviour
         if (player.velocity != Vector3.zero)
         {
             playerAnimator.SetBool("isWalking", true);
+            shadowAnimator.SetBool("isWalking", true);
+
+            
         }
         else if (player.velocity == Vector3.zero)
         {
             playerAnimator.SetBool("isWalking", false);
+            shadowAnimator.SetBool("isWalking", false);
+            
         }
 
     }

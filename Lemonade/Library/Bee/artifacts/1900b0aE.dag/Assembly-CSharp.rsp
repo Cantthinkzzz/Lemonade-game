@@ -361,11 +361,13 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/scripts/PlayerMover.cs"
+"Assets/scripts/shadowwalking.cs"
 "Assets/scripts/stuff that could use a touch up/GiveMeTheBox.cs"
 "Assets/scripts/stuff that could use a touch up/PickupItem.cs"
 "Assets/scripts/stuff that could use a touch up/PickupScript.cs"
 "Assets/scripts/stuff that could use a touch up/SpriteFacing.cs"
 "Assets/scripts/stuff that could use a touch up/timmy_mover.cs"
+"Assets/shadowiswalking.cs"
 -langversion:9.0
 /deterministic
 /optimize+
