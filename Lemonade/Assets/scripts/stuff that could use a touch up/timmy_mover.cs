@@ -25,18 +25,47 @@ public class timmy_mover : MonoBehaviour
     // Tracks which target we're currently moving toward.
     private bool _movingTowardB;
 
-    // Optional cached renderer used to flip sprites when moving toward B.
+    // Optional cached renderers used to flip sprites when moving toward B.
     private SpriteRenderer _spriteRenderer;
+
+    [Tooltip("The shadow's SpriteRenderer; if not assigned it will be searched for in children.")]
+    public SpriteRenderer shadowSpriteRenderer;
+
+    public bool Timmy_Distracted_one = false;
+    public Animator timmyAnimator;
+    public Animator timmyshadowanimator;
 
     void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (shadowSpriteRenderer == null)
+        {
+            shadowSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            if (shadowSpriteRenderer == _spriteRenderer)
+                shadowSpriteRenderer = null;
+        }
+
         _movingTowardB = !startAtA;
         UpdateSpriteFlip();
     }
 
     void Update()
     {
+
+        if (Timmy_Distracted_one==false)
+        {
+            timmyAnimator.SetBool("timmywalk", false);
+            timmyshadowanimator.SetBool("timmywalk", false);
+        }
+
+
+if (Timmy_Distracted_one==false) return;
+
+timmyAnimator.SetBool("timmywalk", true);
+timmyshadowanimator.SetBool("timmywalk", true);
+
+
+
         Transform currentTarget = GetCurrentTarget();
         if (currentTarget == null) return;
 
@@ -58,8 +87,13 @@ public class timmy_mover : MonoBehaviour
 
     private void UpdateSpriteFlip()
     {
-        if (_spriteRenderer == null || !flipWhenMovingToB) return;
-        _spriteRenderer.flipX = _movingTowardB;
+        if (!flipWhenMovingToB) return;
+
+        if (_spriteRenderer != null)
+            _spriteRenderer.flipX = _movingTowardB;
+
+        if (shadowSpriteRenderer != null)
+            shadowSpriteRenderer.flipX = _movingTowardB;
     }
 
     private Transform GetCurrentTarget()
