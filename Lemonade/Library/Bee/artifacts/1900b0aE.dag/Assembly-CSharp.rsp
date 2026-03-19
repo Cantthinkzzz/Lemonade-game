@@ -367,6 +367,7 @@
 "Assets/scripts/stuff that could use a touch up/GiveMeTheBox.cs"
 "Assets/scripts/stuff that could use a touch up/PickupItem.cs"
 "Assets/scripts/stuff that could use a touch up/PickupScript.cs"
+"Assets/scripts/stuff that could use a touch up/signchanger.cs"
 "Assets/scripts/stuff that could use a touch up/SpriteFacing.cs"
 "Assets/scripts/stuff that could use a touch up/timmy_mover.cs"
 -langversion:9.0

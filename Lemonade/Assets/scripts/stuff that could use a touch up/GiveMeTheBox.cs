@@ -29,6 +29,9 @@ public class GiveMeTheBox : MonoBehaviour
 
     [Tooltip("Assign the timmy mover component here so GiveMeTheBox can trigger Timmy distraction.")]
     public timmy_mover timmyMover;
+    
+    
+    public signchanger signMover;
 
     private void Awake()
     {
@@ -66,37 +69,74 @@ public class GiveMeTheBox : MonoBehaviour
     }
 
     private void TriggerSuccess()
+{
+    _hasTriggered = true;
+
+    if (_renderer != null && successMaterial != null)
+        _renderer.material = successMaterial;
+
+    Debug.Log($"GiveMeTheBox: player used '{requiredItemId}' on '{name}'", this);
+
+    // Update the global variable
+    GlobalVariables.DogRanAway = true; // Add this line
+
+    if (dogMover != null)
     {
-        _hasTriggered = true;
-
-        if (_renderer != null && successMaterial != null)
-            _renderer.material = successMaterial;
-
-        Debug.Log($"GiveMeTheBox: player used '{requiredItemId}' on '{name}'", this);
-
-        DogRanAway = true;
-        if (dogMover != null)
-        {
-            dogMover.DogRanAway = true;
-            Debug.Log($"GiveMeTheBox: dogMover.DogRanAway set to {dogMover.DogRanAway}", this);
-        }
-        else
-        {
-            Debug.LogWarning("GiveMeTheBox: dogMover reference is not assigned, dog won't move.", this);
-        }
-
-        if (timmyMover != null)
-        {
-            timmyMover.StartDistraction();
-            Debug.Log("GiveMeTheBox: timmyMover.StartDistraction invoked", this);
-        }
-        else
-        {
-            Debug.LogWarning("GiveMeTheBox: timmyMover reference is not assigned, Timmy won't start moving.", this);
-        }
-
-        // TODO: add additional behavior here (open door, spawn something, etc.)
+        dogMover.DogRanAway = true;
+        Debug.Log($"GiveMeTheBox: dogMover.DogRanAway set to {dogMover.DogRanAway}", this);
     }
+    else
+    {
+        Debug.LogWarning("GiveMeTheBox: dogMover reference is not assigned, dog won't move.", this);
+    }
+
+    if (timmyMover != null)
+    {
+        timmyMover.StartDistraction();
+        Debug.Log("GiveMeTheBox: timmyMover.StartDistraction invoked", this);
+    }
+    else
+    {
+        Debug.LogWarning("GiveMeTheBox: timmyMover reference is not assigned, Timmy won't start moving.", this);
+    }
+
+    // TODO: add additional behavior here (open door, spawn something, etc.)
+}
+
+private void ApplyDogRanAwayEffects()
+{
+    if (_hasTriggered) // optional: only allow once
+        return;
+
+    _hasTriggered = true;
+
+    if (_renderer != null && successMaterial != null)
+        _renderer.material = successMaterial;
+
+    // Update the global variable
+    GlobalVariables.DogRanAway = true; // Add this line
+
+    if (dogMover != null)
+    {
+        dogMover.DogRanAway = true;
+        Debug.Log($"GiveMeTheBox: dogMover.DogRanAway set to {dogMover.DogRanAway}", this);
+    }
+    else
+    {
+        Debug.LogWarning("GiveMeTheBox: dogMover reference is not assigned, dog won't move.", this);
+    }
+
+    if (timmyMover != null)
+    {
+        timmyMover.StartDistraction();
+        Debug.Log("GiveMeTheBox: timmyMover.StartDistraction invoked", this);
+    }
+    else
+    {
+        Debug.LogWarning("GiveMeTheBox: timmyMover reference is not assigned, Timmy won't start moving.", this);
+    }
+}
+
 
     public void ReturnDog()
     {
@@ -127,36 +167,6 @@ public class GiveMeTheBox : MonoBehaviour
         _previousDogRanAway = DogRanAway;
     }
 
-    private void ApplyDogRanAwayEffects()
-    {
-        if (_hasTriggered) // optional: only allow once
-            return;
-
-        _hasTriggered = true;
-
-        if (_renderer != null && successMaterial != null)
-            _renderer.material = successMaterial;
-
-        if (dogMover != null)
-        {
-            dogMover.DogRanAway = true;
-            Debug.Log($"GiveMeTheBox: dogMover.DogRanAway set to {dogMover.DogRanAway}", this);
-        }
-        else
-        {
-            Debug.LogWarning("GiveMeTheBox: dogMover reference is not assigned, dog won't move.", this);
-        }
-
-        if (timmyMover != null)
-        {
-            timmyMover.StartDistraction();
-            Debug.Log("GiveMeTheBox: timmyMover.StartDistraction invoked", this);
-        }
-        else
-        {
-            Debug.LogWarning("GiveMeTheBox: timmyMover reference is not assigned, Timmy won't start moving.", this);
-        }
-    }
 
     private void OnDisable()
     {
