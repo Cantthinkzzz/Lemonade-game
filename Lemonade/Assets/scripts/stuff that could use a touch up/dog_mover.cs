@@ -38,6 +38,9 @@ public class dog_mover : MonoBehaviour
     public Animator dogAnimator;
     public Animator dogshadowanimator;
 
+    [Tooltip("Reference to Timmy mover so dog return can trigger Timmy.")]
+    public timmy_mover timmyMover;
+
     public bool Timmy_Distracted_one = false;
 
     void Start()
@@ -100,6 +103,16 @@ public class dog_mover : MonoBehaviour
                 DogReturned = false;
                 DogWaitingAtB = false;
                 Debug.Log("dog_mover: returned to A.", this);
+
+                if (timmyMover != null)
+                {
+                    timmyMover.NotifyDogReturned();
+                    Debug.Log("dog_mover: notified timmy_mover of dog return.", this);
+                }
+                else
+                {
+                    Debug.LogWarning("dog_mover: timmyMover reference not assigned, cannot notify Timmy on return.", this);
+                }
             }
         }
     }
@@ -131,5 +144,13 @@ public class dog_mover : MonoBehaviour
         DogReturned = true;
         DogRanAway = false;
         Debug.Log("dog_mover: return trigger received, heading back to A.", this);
+    }
+
+    public void OnDogReturned()
+    {
+        DogReturned = true;
+        DogRanAway = false;
+        Debug.Log("dog_mover: OnDogReturned called, dog will return.", this);
+        TriggerDogReturn();
     }
 }

@@ -1031,7 +1031,7 @@ Transform:
   m_GameObject: {fileID: 979070758}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.74, y: 2.2182627, z: 33.82}
+  m_LocalPosition: {x: -13.74, y: 2.2182627, z: 33.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1548,6 +1548,7 @@ GameObject:
   - component: {fileID: 1394526101}
   - component: {fileID: 1394526100}
   - component: {fileID: 1394526099}
+  - component: {fileID: 1394526105}
   m_Layer: 0
   m_Name: dog
   m_TagString: Untagged
@@ -1590,7 +1591,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetA: {fileID: 2683702166848051621}
   targetB: {fileID: 979070762}
-  speed: 10
+  speed: 12
   stopDistance: 1
   flipWhenMovingToB: 1
   startAtA: 1
@@ -1600,6 +1601,7 @@ MonoBehaviour:
   DogWaitingAtB: 0
   dogAnimator: {fileID: 1394526099}
   dogshadowanimator: {fileID: 1410025366}
+  timmyMover: {fileID: 0}
   Timmy_Distracted_one: 0
 --- !u!65 &1394526101
 BoxCollider:
@@ -1688,6 +1690,33 @@ Transform:
   - {fileID: 1410025365}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1394526105
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394526098}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1398518554
 GameObject:
   m_ObjectHideFlags: 0
@@ -2042,7 +2071,7 @@ Transform:
   m_GameObject: {fileID: 1479424271}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7259063, z: -0, w: 0.6877936}
-  m_LocalPosition: {x: -31.39, y: 4.0466, z: -12.83}
+  m_LocalPosition: {x: -31.6, y: 4.0466, z: -16.75}
   m_LocalScale: {x: 6.354408, y: 6.354408, z: 6.354408}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2121,17 +2150,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a40830864c37211439aeb108761c597c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetA: {fileID: 1394526104}
-  targetB: {fileID: 517827854}
+  targetA: {fileID: 517827854}
+  targetB: {fileID: 1394526104}
   speed: 10
   stopDistance: 2
   flipWhenMovingToB: 0
   startAtA: 0
-  shadowSpriteRenderer: {fileID: 1077019950}
-  stopAtBWhenReached: 1
-  Timmy_Distracted_one: 0
+  dogReturned: 0
   timmyAnimator: {fileID: 1479424275}
   timmyshadowanimator: {fileID: 1077019949}
+  dogMover: {fileID: 0}
+  shadowSpriteRenderer: {fileID: 1077019950}
 --- !u!195 &1482639724
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2599,7 +2628,7 @@ MonoBehaviour:
   requiredDistance: 3
   playerPickupScript: {fileID: 919132148189447833}
   successMaterial: {fileID: 2100000, guid: 8f588c72574369640a9403343540383b, type: 2}
-  DogRanAway: 1
+  DogRanAway: 0
   timmyMover: {fileID: 1479424277}
   dogMover: {fileID: 1394526100}
 --- !u!65 &1748365552
@@ -3403,7 +3432,7 @@ Transform:
   m_GameObject: {fileID: 3134871499304560911}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.49999997, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: -12.31, y: 0.52, z: 39.42}
+  m_LocalPosition: {x: -12.31, y: 0.52, z: 44.91}
   m_LocalScale: {x: 2.704287, y: 51.519405, z: 51.519405}
   m_ConstrainProportionsScale: 0
   m_Children: []

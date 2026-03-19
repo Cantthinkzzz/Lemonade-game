@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,26 +19,77 @@ public class timmy_mover : MonoBehaviour
     [Tooltip("If true, the object will flip horizontally while moving toward target B.")]
     public bool flipWhenMovingToB = true;
 
-    [Tooltip("If true, the object will start moving toward target A (then alternate between A and B). If false, it will start toward B.")]
+    [Tooltip("If true, Timmy starts idle. If false, Timmy starts idle (distraction only triggers movement).")]
     public bool startAtA = true;
 
-    // Tracks which target we're currently moving toward.
-    private bool _movingTowardB;
+    [Tooltip("Set true externally when the dog has returned to allow Timmy to go back to A.")]
+    public bool dogReturned = false;
 
-    // Optional cached renderers used to flip sprites when moving toward B.
+    public Animator timmyAnimator;
+    public Animator timmyshadowanimator;
+
+    [Tooltip("Reference to the dog mover so Timmy can trigger dog return on collision.")]
+    public dog_mover dogMover;
+
     private SpriteRenderer _spriteRenderer;
-
     [Tooltip("The shadow's SpriteRenderer; if not assigned it will be searched for in children.")]
     public SpriteRenderer shadowSpriteRenderer;
 
-    [Tooltip("If true, Timmy will stop moving forever the first time he reaches target B.")]
-    public bool stopAtBWhenReached = true;
+    public void StartDistraction()
+    {
+        if (_state == TimmyState.StoppedAtA)
+        {
+            Debug.Log("timmy_mover: StartDistraction called but Timmy is already stopped at A.", this);
+            return;
+        }
 
-    private bool _timmyStoppedAtB = false;
+        if (_state == TimmyState.Idle)
+        {
+            _state = TimmyState.GoingToB;
+            Debug.Log("timmy_mover: StartDistraction sets state to GoingToB.", this);
+        }
+        else
+        {
+            Debug.Log($"timmy_mover: StartDistraction called while in state {_state}, no state change.", this);
+        }
 
-    public bool Timmy_Distracted_one = false;
-    public Animator timmyAnimator;
-    public Animator timmyshadowanimator;
+        dogReturned = false;
+        UpdateSpriteFlip();
+    }
+
+    public void NotifyDogReturned()
+    {
+        if (_state == TimmyState.WaitingAtB)
+        {
+            dogReturned = true;
+            Debug.Log("timmy_mover: NotifyDogReturned sets dogReturned=true and will return to A on next Update.", this);
+        }
+        else
+        {
+            Debug.Log($"timmy_mover: NotifyDogReturned called but state is {_state} (ignored).", this);
+        }
+    }
+
+    public void OnDogReturned()
+    {
+        Debug.Log("timmy_mover: OnDogReturned invoked (dog returned signal).", this);
+        NotifyDogReturned();
+    }
+
+    private enum TimmyState
+    {
+        Idle,
+        GoingToB,
+        WaitingAtB,
+        ReturningToA,
+        StoppedAtA
+    }
+
+    private TimmyState _state;
+
+    private bool IsMovingState => _state == TimmyState.GoingToB || _state == TimmyState.ReturningToA;
+
+    private bool _movingTowardB => _state == TimmyState.GoingToB || _state == TimmyState.WaitingAtB;
 
     void Start()
     {
@@ -50,67 +101,70 @@ public class timmy_mover : MonoBehaviour
                 shadowSpriteRenderer = null;
         }
 
-        _movingTowardB = !startAtA;
+        _state = startAtA ? TimmyState.GoingToB : TimmyState.Idle;
+        Debug.Log($"timmy_mover: Start({_state}, startAtA={startAtA})", this);
         UpdateSpriteFlip();
     }
 
     void Update()
     {
-        if (_timmyStoppedAtB)
+        // Set walker animation based on active movement state
+        bool isWalking = IsMovingState;
+
+        if (timmyAnimator != null)
+            timmyAnimator.SetBool("timmywalk", isWalking);
+        if (timmyshadowanimator != null)
+            timmyshadowanimator.SetBool("timmywalk", isWalking);
+
+        if (_state == TimmyState.WaitingAtB)
         {
-            if (timmyAnimator != null)
-                timmyAnimator.SetBool("timmywalk", false);
-            if (timmyshadowanimator != null)
-                timmyshadowanimator.SetBool("timmywalk", false);
+            if (dogReturned)
+            {
+                _state = TimmyState.ReturningToA;
+                Debug.Log("timmy_mover: dogReturned true, changing state WaitingAtB -> ReturningToA", this);
+                UpdateSpriteFlip();
+            }
+            else
+            {
+                Debug.Log("timmy_mover: WaitingAtB, waiting for dogReturned = true", this);
+            }
             return;
         }
 
-        if (Timmy_Distracted_one == false)
+        if (_state == TimmyState.StoppedAtA)
         {
-            if (timmyAnimator != null)
-                timmyAnimator.SetBool("timmywalk", false);
-            if (timmyshadowanimator != null)
-                timmyshadowanimator.SetBool("timmywalk", false);
+            Debug.Log("timmy_mover: StoppedAtA, no movement.", this);
+            return;
         }
 
-
-        if (Timmy_Distracted_one == false) return;
-
-        if (timmyAnimator != null)
-            timmyAnimator.SetBool("timmywalk", true);
-        if (timmyshadowanimator != null)
-            timmyshadowanimator.SetBool("timmywalk", true);
-
-
-
         Transform currentTarget = GetCurrentTarget();
-        if (currentTarget == null) return;
+        if (currentTarget == null)
+            return;
 
         UpdateSpriteFlip();
 
         Vector3 currentPosition = transform.position;
         Vector3 targetPosition = currentTarget.position;
 
-        // Move towards the target using a constant speed.
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(currentPosition, targetPosition, step);
 
-        // Switch target once close enough to avoid jitter and make it loop between A and B.
         if (Vector3.Distance(transform.position, targetPosition) <= stopDistance)
         {
-            if (_movingTowardB && stopAtBWhenReached)
+            switch (_state)
             {
-                _timmyStoppedAtB = true;
-                Timmy_Distracted_one = false;
-                if (timmyAnimator != null)
-                    timmyAnimator.SetBool("timmywalk", false);
-                if (timmyshadowanimator != null)
-                    timmyshadowanimator.SetBool("timmywalk", false);
-                Debug.Log("timmy_mover: reached B and stopped (stopAtBWhenReached=true).", this);
-                return;
+                case TimmyState.GoingToB:
+                    _state = TimmyState.WaitingAtB;
+                    dogReturned = false;
+                    Debug.Log("timmy_mover: reached B, switching state GoingToB -> WaitingAtB", this);
+                    break;
+
+                case TimmyState.ReturningToA:
+                    _state = TimmyState.StoppedAtA;
+                    Debug.Log("timmy_mover: reached A, switching state ReturningToA -> StoppedAtA", this);
+                    break;
             }
-            
-            _movingTowardB = !_movingTowardB;
+
             UpdateSpriteFlip();
         }
     }
@@ -128,6 +182,45 @@ public class timmy_mover : MonoBehaviour
 
     private Transform GetCurrentTarget()
     {
-        return _movingTowardB ? targetB : targetA;
+        switch (_state)
+        {
+            case TimmyState.ReturningToA:
+                return targetA;
+            case TimmyState.GoingToB:
+            case TimmyState.WaitingAtB:
+                return targetB;
+            default:
+                return null;
+        }
+    }
+
+    // If Timmy collides with the dog while waiting at B, trigger dog return.
+    private void OnCollisionEnter(Collision collision)
+    {
+        TryTriggerDogReturnOnCollision(collision.gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        TryTriggerDogReturnOnCollision(other.gameObject);
+    }
+
+    private void TryTriggerDogReturnOnCollision(GameObject other)
+    {
+        if (_state != TimmyState.WaitingAtB)
+            return;
+
+        var dog = other.GetComponent<dog_mover>();
+        if (dog == null)
+            return;
+
+        if (dogMover == null)
+            dogMover = dog;
+
+        if (dogMover != null)
+        {
+            dogMover.TriggerDogReturn();
+            Debug.Log("timmy_mover: collided with dog at B; triggered dog return.", this);
+        }
     }
 }
