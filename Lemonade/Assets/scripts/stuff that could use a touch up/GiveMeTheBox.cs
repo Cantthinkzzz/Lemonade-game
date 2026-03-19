@@ -24,6 +24,11 @@ public class GiveMeTheBox : MonoBehaviour
     private Renderer _renderer;
     private bool _hasTriggered;
 
+    public bool DogRanAway;
+
+    [Tooltip("Assign the timmy mover component here so GiveMeTheBox can trigger Timmy distraction.")]
+    public timmy_mover timmyMover;
+
     private void Awake()
     {
         _renderer = GetComponent<Renderer>();
@@ -33,6 +38,10 @@ public class GiveMeTheBox : MonoBehaviour
         if (playerPickupScript == null)
             Debug.LogWarning("GiveMeTheBox: playerPickupScript is not assigned.", this);
     }
+
+    // Optional other entity that needs to know when dog ran away.
+    [Tooltip("Assign the dog mover component here so GiveMeTheBox can trigger dog run behavior.")]
+    public dog_mover dogMover;
 
     // Called when the player clicks on this GameObject (requires a Collider)
     private void OnMouseDown()
@@ -64,7 +73,40 @@ public class GiveMeTheBox : MonoBehaviour
 
         Debug.Log($"GiveMeTheBox: player used '{requiredItemId}' on '{name}'", this);
 
+        DogRanAway = true;
+        if (dogMover != null)
+        {
+            dogMover.DogRanAway = true;
+            Debug.Log($"GiveMeTheBox: dogMover.DogRanAway set to {dogMover.DogRanAway}", this);
+        }
+        else
+        {
+            Debug.LogWarning("GiveMeTheBox: dogMover reference is not assigned, dog won't move.", this);
+        }
+
+        if (timmyMover != null)
+        {
+            timmyMover.Timmy_Distracted_one = true;
+            Debug.Log($"GiveMeTheBox: timmyMover.Timmy_Distracted_one set to {timmyMover.Timmy_Distracted_one}", this);
+        }
+        else
+        {
+            Debug.LogWarning("GiveMeTheBox: timmyMover reference is not assigned, Timmy won't start moving.", this);
+        }
+
         // TODO: add additional behavior here (open door, spawn something, etc.)
+    }
+
+    public void ReturnDog()
+    {
+        if (dogMover != null)
+        {
+            dogMover.TriggerDogReturn();
+        }
+        else
+        {
+            Debug.LogWarning("GiveMeTheBox: dogMover is not set, cannot return dog.", this);
+        }
     }
 
     private void OnDisable()

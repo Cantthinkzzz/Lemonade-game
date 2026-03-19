@@ -31,6 +31,11 @@ public class timmy_mover : MonoBehaviour
     [Tooltip("The shadow's SpriteRenderer; if not assigned it will be searched for in children.")]
     public SpriteRenderer shadowSpriteRenderer;
 
+    [Tooltip("If true, Timmy will stop moving forever the first time he reaches target B.")]
+    public bool stopAtBWhenReached = true;
+
+    private bool _timmyStoppedAtB = false;
+
     public bool Timmy_Distracted_one = false;
     public Animator timmyAnimator;
     public Animator timmyshadowanimator;
@@ -51,18 +56,30 @@ public class timmy_mover : MonoBehaviour
 
     void Update()
     {
-
-        if (Timmy_Distracted_one==false)
+        if (_timmyStoppedAtB)
         {
-            timmyAnimator.SetBool("timmywalk", false);
-            timmyshadowanimator.SetBool("timmywalk", false);
+            if (timmyAnimator != null)
+                timmyAnimator.SetBool("timmywalk", false);
+            if (timmyshadowanimator != null)
+                timmyshadowanimator.SetBool("timmywalk", false);
+            return;
+        }
+
+        if (Timmy_Distracted_one == false)
+        {
+            if (timmyAnimator != null)
+                timmyAnimator.SetBool("timmywalk", false);
+            if (timmyshadowanimator != null)
+                timmyshadowanimator.SetBool("timmywalk", false);
         }
 
 
-if (Timmy_Distracted_one==false) return;
+        if (Timmy_Distracted_one == false) return;
 
-timmyAnimator.SetBool("timmywalk", true);
-timmyshadowanimator.SetBool("timmywalk", true);
+        if (timmyAnimator != null)
+            timmyAnimator.SetBool("timmywalk", true);
+        if (timmyshadowanimator != null)
+            timmyshadowanimator.SetBool("timmywalk", true);
 
 
 
@@ -81,7 +98,20 @@ timmyshadowanimator.SetBool("timmywalk", true);
         // Switch target once close enough to avoid jitter and make it loop between A and B.
         if (Vector3.Distance(transform.position, targetPosition) <= stopDistance)
         {
+            if (_movingTowardB && stopAtBWhenReached)
+            {
+                _timmyStoppedAtB = true;
+                Timmy_Distracted_one = false;
+                if (timmyAnimator != null)
+                    timmyAnimator.SetBool("timmywalk", false);
+                if (timmyshadowanimator != null)
+                    timmyshadowanimator.SetBool("timmywalk", false);
+                Debug.Log("timmy_mover: reached B and stopped (stopAtBWhenReached=true).", this);
+                return;
+            }
+            
             _movingTowardB = !_movingTowardB;
+            UpdateSpriteFlip();
         }
     }
 
