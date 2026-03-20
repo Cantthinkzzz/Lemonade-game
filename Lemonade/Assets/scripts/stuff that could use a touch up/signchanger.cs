@@ -4,12 +4,6 @@ using System.Linq;
 using UnityEngine;
 using globalVariables = GlobalVariables; // Alias to avoid confusion with the class name
 
-
-public static class GlobalVariables
-{
-    public static bool DogRanAway = false;
-    public static bool TimmyReturned = false;
-}
 public class signchanger : MonoBehaviour
 {
     [Tooltip("Item ID the player must have collected to change this sign.")]
