@@ -1187,11 +1187,7 @@ MonoBehaviour:
   content: {fileID: 1517494580}
   characterDelay: 0.05
   punctuationDelay: 0.5
-  maxWords: 25
-  moveNext: 0
-  moveNextButt: {fileID: 1882244499}
   dialogueCanvas: {fileID: 2112554993}
-  isShowing: 0
 --- !u!4 &537499557
 Transform:
   m_ObjectHideFlags: 0
@@ -1263,11 +1259,7 @@ MonoBehaviour:
   dialoguesspecial:
   - {fileID: 11400000, guid: ab7dc0316a3d3d24fa5bc39d9f141fa2, type: 2}
   dialoguesafter: []
-  currentDialogueIndex: 0
-  currentDialogueIndexspecial: 0
-  currentDialogueIndexafter: 0
-  specialActiveForThisNPC: 0
-  afterActiveForThisNPC: 0
+  currentState: 0
 --- !u!65 &543340330
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3507,13 +3499,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3c0084d33e1c4bb4f8b29a12a529c8ac, type: 2}
   - {fileID: 11400000, guid: 586283158ebe5ab49b2c7221f59a544d, type: 2}
   - {fileID: 11400000, guid: 6235ebdd2acb9fa479221c5856253af5, type: 2}
-  dialoguesspecial: []
+  dialoguesspecial:
+  - {fileID: 11400000, guid: 0c449d37f2abf7c4e8ef063bb00c5264, type: 2}
+  - {fileID: 11400000, guid: 34236f0d18e820a4d88a5006849b7bf4, type: 2}
+  - {fileID: 11400000, guid: f6bccbb9994390c47ad46f59911b90dc, type: 2}
+  - {fileID: 11400000, guid: 519a846a917b0f745a2298ee5cb33a24, type: 2}
   dialoguesafter: []
-  currentDialogueIndex: 0
-  currentDialogueIndexspecial: 0
-  currentDialogueIndexafter: 0
-  specialActiveForThisNPC: 0
-  afterActiveForThisNPC: 0
+  currentState: 0
 --- !u!65 &1446144197
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3897,11 +3889,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6ae2e6107d70fce40b84d1d5adf6a342, type: 2}
   dialoguesspecial: []
   dialoguesafter: []
-  currentDialogueIndex: 0
-  currentDialogueIndexspecial: 0
-  currentDialogueIndexafter: 0
-  specialActiveForThisNPC: 0
-  afterActiveForThisNPC: 0
+  currentState: 0
 --- !u!65 &1479424279
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4119,11 +4107,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 75b7b50949bc2d548aac2484fd8c48fe, type: 2}
   dialoguesspecial: []
   dialoguesafter: []
-  currentDialogueIndex: 0
-  currentDialogueIndexspecial: 0
-  currentDialogueIndexafter: 0
-  specialActiveForThisNPC: 0
-  afterActiveForThisNPC: 0
+  currentState: 0
 --- !u!1 &1504132343
 GameObject:
   m_ObjectHideFlags: 0
@@ -4661,11 +4645,7 @@ MonoBehaviour:
   dialoguesspecial:
   - {fileID: 11400000, guid: d95db73b5e97cf844bf24380dfdc03ca, type: 2}
   dialoguesafter: []
-  currentDialogueIndex: 0
-  currentDialogueIndexspecial: 0
-  currentDialogueIndexafter: 0
-  specialActiveForThisNPC: 0
-  afterActiveForThisNPC: 0
+  currentState: 0
 --- !u!1 &1621411169
 GameObject:
   m_ObjectHideFlags: 0
@@ -5154,11 +5134,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 88531087b0424d74c8b4423ecc6286f6, type: 2}
   dialoguesspecial: []
   dialoguesafter: []
-  currentDialogueIndex: 0
-  currentDialogueIndexspecial: 0
-  currentDialogueIndexafter: 0
-  specialActiveForThisNPC: 0
-  afterActiveForThisNPC: 0
+  currentState: 0
 --- !u!1 &1672188259
 GameObject:
   m_ObjectHideFlags: 0
@@ -5524,11 +5500,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b235434ad739601429ca49405e07d84c, type: 2}
   dialoguesafter:
   - {fileID: 11400000, guid: 6cbb9dbebaf44de44abd4182b4003af0, type: 2}
-  currentDialogueIndex: 0
-  currentDialogueIndexspecial: 0
-  currentDialogueIndexafter: 0
-  specialActiveForThisNPC: 0
-  afterActiveForThisNPC: 0
+  currentState: 0
 --- !u!1 &1802747721
 GameObject:
   m_ObjectHideFlags: 0
@@ -5973,11 +5945,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8febbc5d87b4720488237685a85ceb5f, type: 2}
   dialoguesspecial: []
   dialoguesafter: []
-  currentDialogueIndex: 0
-  currentDialogueIndexspecial: 0
-  currentDialogueIndexafter: 0
-  specialActiveForThisNPC: 0
-  afterActiveForThisNPC: 0
+  currentState: 0
 --- !u!1 &1853713431
 GameObject:
   m_ObjectHideFlags: 0
@@ -6563,11 +6531,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cf9222f3fc4048447acb8e4b921a2fda, type: 2}
   dialoguesspecial: []
   dialoguesafter: []
-  currentDialogueIndex: 0
-  currentDialogueIndexspecial: 0
-  currentDialogueIndexafter: 0
-  specialActiveForThisNPC: 0
-  afterActiveForThisNPC: 0
+  currentState: 0
 --- !u!1 &2024739198
 GameObject:
   m_ObjectHideFlags: 0
@@ -9094,11 +9058,7 @@ MonoBehaviour:
   dialoguesspecial:
   - {fileID: 11400000, guid: 33ce90a949bc0584ba2400398b58d5b3, type: 2}
   dialoguesafter: []
-  currentDialogueIndex: 0
-  currentDialogueIndexspecial: 0
-  currentDialogueIndexafter: 0
-  specialActiveForThisNPC: 0
-  afterActiveForThisNPC: 0
+  currentState: 0
 --- !u!23 &7055616608987019566
 MeshRenderer:
   m_ObjectHideFlags: 0
