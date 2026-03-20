@@ -36,6 +36,7 @@ namespace RedstoneinventeGameStudio
         public void ShowDialogue(NPCManager nPCManager)
         {
             StartCoroutine(ShowDialogueC(nPCManager));
+
         }
 
         IEnumerator ShowDialogueC(NPCManager nPCManager)
