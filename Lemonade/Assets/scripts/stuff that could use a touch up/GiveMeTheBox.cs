@@ -66,14 +66,32 @@ public class GiveMeTheBox : MonoBehaviour
         if (playerPickupScript == null)
             return;
 
-        // Check distance from player to this object
-        float distance = Vector3.Distance(playerPickupScript.transform.position, transform.position);
-        if (distance > requiredDistance)
-            return;
+        // Start a coroutine to wait until player is close enough
+        StartCoroutine(WaitForPlayerAndUse());
+    }
+
+    private IEnumerator WaitForPlayerAndUse()
+    {
+        // Continuously check until player is within requiredDistance
+        while (true)
+        {
+            if (playerPickupScript == null)
+                yield break;
+
+            float distance = Vector3.Distance(playerPickupScript.transform.position, transform.position);
+            if (distance <= requiredDistance)
+                break;
+
+            // Optional: debug log (comment out in production)
+            Debug.Log($"GiveMeTheBox: player is {distance:F2} units away, needs to be within {requiredDistance} to use.", this);
+
+            yield return null; // wait one frame and check again
+        }
 
         // Check if player has the required item
-        if (!playerPickupScript.CollectedItemIds.Contains(requiredItemId))
-            return;
+        if (playerPickupScript.CollectedItemIds == null || !playerPickupScript.CollectedItemIds.Contains(requiredItemId))
+            yield break;
+
 
         TriggerSuccess();
     }
