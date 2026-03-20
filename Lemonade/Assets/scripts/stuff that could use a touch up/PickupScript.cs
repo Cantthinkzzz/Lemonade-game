@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using globalVariables = GlobalVariables; // Alias to avoid confusion with the class name
 
 public class PickupScript : MonoBehaviour
 {
@@ -53,6 +54,14 @@ public Animator playerAnimator;
     {
         if (Input.GetMouseButtonDown(0))
         {
+
+
+if (globalVariables.istalking == true)
+            {
+                
+                return;
+            }
+
             TrySetTargetFromClick();
         }
 

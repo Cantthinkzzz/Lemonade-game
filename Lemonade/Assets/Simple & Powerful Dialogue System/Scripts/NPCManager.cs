@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using globalVariables = GlobalVariables; 
 
 namespace RedstoneinventeGameStudio
 {
@@ -19,6 +20,14 @@ namespace RedstoneinventeGameStudio
 
         private void OnMouseUp()
         {
+
+
+if (globalVariables.istalking == true)
+            {
+                
+                return;
+            }
+
             DialogueManager.instance.ShowDialogue(this);
         }
     }

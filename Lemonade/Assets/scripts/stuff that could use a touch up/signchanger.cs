@@ -46,6 +46,12 @@ public class signchanger : MonoBehaviour
 
     private void OnMouseDown()
 {
+
+    if (globalVariables.istalking == true)
+            {
+                
+                return;
+            }
     if (_hasChanged)
         return;
 

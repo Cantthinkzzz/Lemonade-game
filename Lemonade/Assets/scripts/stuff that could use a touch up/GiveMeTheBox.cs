@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using globalVariables = GlobalVariables; 
 
 [RequireComponent(typeof(Collider))]
 public class GiveMeTheBox : MonoBehaviour
@@ -50,6 +51,15 @@ public class GiveMeTheBox : MonoBehaviour
     // Called when the player clicks on this GameObject (requires a Collider)
     private void OnMouseDown()
     {
+        
+        
+        if (globalVariables.istalking == true)
+            {
+                
+                return;
+            }
+
+
         if (_hasTriggered)
             return;
 

@@ -14,6 +14,8 @@ public static class GlobalVariables
     public static bool PoisionedLemonade = false;
 
     public static bool TimmyPlaneGiven = false;
+
+    public static bool istalking = false;
     
 }
 

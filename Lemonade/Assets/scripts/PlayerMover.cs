@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using globalVariables = GlobalVariables; // Alias to avoid confusion with the class name
 
 
 public class CharacterControl : MonoBehaviour
@@ -14,13 +15,38 @@ public class CharacterControl : MonoBehaviour
     public GameObject targetDest;
 
     public bool isWalking;
+
+
+
+   
    
 
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+
+
+    if (globalVariables.istalking == true)
+        {
+            player.velocity = Vector3.zero;
+            playerAnimator.SetBool("isWalking", false);
+            shadowAnimator.SetBool("isWalking", false);
+
+    {
+
+
+
+    }
+            return;
+        }
+  
+if (globalVariables.istalking == false)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        if (Input.GetMouseButtonDown(0) && globalVariables.istalking == false)
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hitPoint;
@@ -34,8 +60,7 @@ public class CharacterControl : MonoBehaviour
             }
         }
                
-            
-  
+        
         if (player.velocity != Vector3.zero)
         {
             playerAnimator.SetBool("isWalking", true);

@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
+using globalVariables = GlobalVariables; // Alias to avoid confusion with the class name
 
 namespace RedstoneinventeGameStudio
 {
@@ -28,14 +29,17 @@ namespace RedstoneinventeGameStudio
             instance = this;
         }
 
+
         public void MoveNext()
         {
             moveNext = true;
+            globalVariables.istalking = false;
         }
 
         public void ShowDialogue(NPCManager nPCManager)
         {
             StartCoroutine(ShowDialogueC(nPCManager));
+            globalVariables.istalking = true;
 
         }
 
