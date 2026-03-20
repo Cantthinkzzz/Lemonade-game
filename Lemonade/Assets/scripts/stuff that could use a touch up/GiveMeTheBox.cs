@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+using System.Linq; // for Enumerable.Contains if CollectedItemIds is IReadOnlyList
 using UnityEngine;
-using globalVariables = GlobalVariables; 
+using globalVariables = GlobalVariables;
 
 [RequireComponent(typeof(Collider))]
 public class GiveMeTheBox : MonoBehaviour
@@ -25,14 +24,20 @@ public class GiveMeTheBox : MonoBehaviour
     private Renderer _renderer;
     private bool _hasTriggered;
 
+    [Header("Dialogue")]
+    [Tooltip("The NPC to start special dialogue on immediately when success happens.")]
+    public RedstoneinventeGameStudio.NPCManager targetNpc;
+
     public bool DogRanAway;
     private bool _previousDogRanAway;
 
     [Tooltip("Assign the timmy mover component here so GiveMeTheBox can trigger Timmy distraction.")]
     public timmy_mover timmyMover;
-    
-    
+
     public signchanger signMover;
+
+    [Tooltip("Assign the dog mover component here so GiveMeTheBox can trigger dog run behavior.")]
+    public dog_mover dogMover;
 
     private void Awake()
     {
@@ -44,21 +49,10 @@ public class GiveMeTheBox : MonoBehaviour
             Debug.LogWarning("GiveMeTheBox: playerPickupScript is not assigned.", this);
     }
 
-    // Optional other entity that needs to know when dog ran away.
-    [Tooltip("Assign the dog mover component here so GiveMeTheBox can trigger dog run behavior.")]
-    public dog_mover dogMover;
-
-    // Called when the player clicks on this GameObject (requires a Collider)
     private void OnMouseDown()
     {
-        
-        
         if (globalVariables.istalking == true)
-            {
-                
-                return;
-            }
-
+            return;
 
         if (_hasTriggered)
             return;
@@ -66,13 +60,11 @@ public class GiveMeTheBox : MonoBehaviour
         if (playerPickupScript == null)
             return;
 
-        // Start a coroutine to wait until player is close enough
         StartCoroutine(WaitForPlayerAndUse());
     }
 
     private IEnumerator WaitForPlayerAndUse()
     {
-        // Continuously check until player is within requiredDistance
         while (true)
         {
             if (playerPickupScript == null)
@@ -82,92 +74,131 @@ public class GiveMeTheBox : MonoBehaviour
             if (distance <= requiredDistance)
                 break;
 
-            // Optional: debug log (comment out in production)
-            Debug.Log($"GiveMeTheBox: player is {distance:F2} units away, needs to be within {requiredDistance} to use.", this);
-
-            yield return null; // wait one frame and check again
+            yield return null;
         }
 
-        // Check if player has the required item
         if (playerPickupScript.CollectedItemIds == null || !playerPickupScript.CollectedItemIds.Contains(requiredItemId))
             yield break;
-
 
         TriggerSuccess();
     }
 
     private void TriggerSuccess()
-{
-    _hasTriggered = true;
-
-    if (_renderer != null && successMaterial != null)
-        _renderer.material = successMaterial;
-
-    Debug.Log($"GiveMeTheBox: player used '{requiredItemId}' on '{name}'", this);
-
-    // Update the global variable
-    GlobalVariables.DogRanAway = true; // Add this line
-
-    GlobalVariables.specialEventActive = true; // Example: trigger special dialogues to start happening
-    
-
-    if (dogMover != null)
     {
-        dogMover.DogRanAway = true;
-        Debug.Log($"GiveMeTheBox: dogMover.DogRanAway set to {dogMover.DogRanAway}", this);
-    }
-    else
-    {
-        Debug.LogWarning("GiveMeTheBox: dogMover reference is not assigned, dog won't move.", this);
-    }
+        _hasTriggered = true;
 
-    if (timmyMover != null)
-    {
-        timmyMover.StartDistraction();
-        Debug.Log("GiveMeTheBox: timmyMover.StartDistraction invoked", this);
-    }
-    else
-    {
-        Debug.LogWarning("GiveMeTheBox: timmyMover reference is not assigned, Timmy won't start moving.", this);
-    }
+        if (_renderer != null && successMaterial != null)
+            _renderer.material = successMaterial;
 
-    // TODO: add additional behavior here (open door, spawn something, etc.)
-}
+        Debug.Log($"GiveMeTheBox: player used '{requiredItemId}' on '{name}'", this);
 
-private void ApplyDogRanAwayEffects()
-{
-    if (_hasTriggered) // optional: only allow once
-        return;
+        // Set globals
+        GlobalVariables.DogRanAway = true;
+        GlobalVariables.specialEventActive = true;
 
-    _hasTriggered = true;
+        // Enable special on NPC and start dialogue immediately
+        if (targetNpc != null)
+        {
+            targetNpc.EnableSpecialForThisNPC();
 
-    if (_renderer != null && successMaterial != null)
-        _renderer.material = successMaterial;
+            if (RedstoneinventeGameStudio.DialogueManager.instance != null)
+            {
+                // ensure talking flag is reset so dialogue manager can set it
+                globalVariables.istalking = false;
 
-    // Update the global variable
-    GlobalVariables.DogRanAway = true; // Add this line
+                // Start dialogue and wait for its completion to clean up
+                RedstoneinventeGameStudio.DialogueManager.instance.ShowDialogue(targetNpc);
+                StartCoroutine(WaitForDialogueEndAndCleanup());
+            }
+            else
+            {
+                Debug.LogWarning("GiveMeTheBox: DialogueManager.instance is null; cannot start dialogue immediately.", this);
+            }
+        }
+        else
+        {
+            Debug.Log("GiveMeTheBox: no targetNpc assigned. globalVariables.specialEventActive set for future clicks.", this);
+        }
 
-    if (dogMover != null)
-    {
-        dogMover.DogRanAway = true;
-        Debug.Log($"GiveMeTheBox: dogMover.DogRanAway set to {dogMover.DogRanAway}", this);
-    }
-    else
-    {
-        Debug.LogWarning("GiveMeTheBox: dogMover reference is not assigned, dog won't move.", this);
+        if (dogMover != null)
+        {
+            dogMover.DogRanAway = true;
+            Debug.Log($"GiveMeTheBox: dogMover.DogRanAway set to {dogMover.DogRanAway}", this);
+        }
+        else
+        {
+            Debug.LogWarning("GiveMeTheBox: dogMover reference is not assigned, dog won't move.", this);
+        }
+
+        if (timmyMover != null)
+        {
+            timmyMover.StartDistraction();
+            Debug.Log("GiveMeTheBox: timmyMover.StartDistraction invoked", this);
+        }
+        else
+        {
+            Debug.LogWarning("GiveMeTheBox: timmyMover reference is not assigned, Timmy won't start moving.", this);
+        }
     }
 
-    if (timmyMover != null)
+    private IEnumerator WaitForDialogueEndAndCleanup()
     {
-        timmyMover.StartDistraction();
-        Debug.Log("GiveMeTheBox: timmyMover.StartDistraction invoked", this);
-    }
-    else
-    {
-        Debug.LogWarning("GiveMeTheBox: timmyMover reference is not assigned, Timmy won't start moving.", this);
-    }
-}
+        var dm = RedstoneinventeGameStudio.DialogueManager.instance;
+        if (dm == null)
+        {
+            GlobalVariables.specialEventActive = false;
+            yield break;
+        }
 
+        yield return new WaitUntil(() => dm.isShowing == false);
+
+        // Dialogue finished
+        GlobalVariables.specialEventActive = false;
+
+        // Trigger sign change if available (calls ApplySuccessMaterial on your signchanger)
+        if (signMover != null)
+        {
+            signMover.ApplySuccessMaterial();
+        }
+
+        // Optionally return dog after dialogue
+        // ReturnDog();
+
+        yield break;
+    }
+
+    private void ApplyDogRanAwayEffects()
+    {
+        if (_hasTriggered)
+            return;
+
+        _hasTriggered = true;
+
+        if (_renderer != null && successMaterial != null)
+            _renderer.material = successMaterial;
+
+        GlobalVariables.DogRanAway = true;
+
+        if (dogMover != null)
+        {
+            dogMover.DogRanAway = true;
+            Debug.Log($"GiveMeTheBox: dogMover.DogRanAway set to {dogMover.DogRanAway}", this);
+        }
+        else
+        {
+            Debug.LogWarning("GiveMeTheBox: dogMover reference is not assigned, dog won't move.", this);
+        }
+
+        if (timmyMover != null)
+        {
+            timmyMover.StartDistraction();
+            Debug.Log("GiveMeTheBox: timmyMover.StartDistraction invoked", this);
+        }
+        else
+        {
+            Debug.LogWarning("GiveMeTheBox: timmyMover is not assigned, Timmy won't start moving.", this);
+        }
+    }
 
     public void ReturnDog()
     {
@@ -183,7 +214,7 @@ private void ApplyDogRanAwayEffects()
         if (timmyMover != null)
         {
             timmyMover.NotifyDogReturned();
-            Debug.Log("GiveMeTheBox: timmyMover.NotifyDogReturned invoked", this);
+            Debug.Log("GiveMeTheBox: timmy_mover.NotifyDogReturned invoked", this);
         }
     }
 
@@ -198,10 +229,8 @@ private void ApplyDogRanAwayEffects()
         _previousDogRanAway = DogRanAway;
     }
 
-
     private void OnDisable()
     {
-        // Restore original material so editor/play mode doesn't keep it changed.
         if (_renderer != null && _originalMaterial != null)
             _renderer.material = _originalMaterial;
     }

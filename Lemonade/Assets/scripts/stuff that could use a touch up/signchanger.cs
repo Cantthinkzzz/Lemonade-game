@@ -91,7 +91,7 @@ public class signchanger : MonoBehaviour
 }
 
 
-    private void ApplySuccessMaterial()
+    public void ApplySuccessMaterial()
     {
         if (_renderer == null)
         {
