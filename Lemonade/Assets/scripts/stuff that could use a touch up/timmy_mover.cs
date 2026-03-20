@@ -1,8 +1,16 @@
  using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using globalVariables = GlobalVariables; // Alias to avoid confusion with the class name
 
-public class timmy_mover : MonoBehaviour
+public interface Itimmy_mover
+{
+    void NotifyDogReturned();
+    void OnDogReturned();
+    void StartDistraction();
+}
+
+public class timmy_mover : MonoBehaviour, Itimmy_mover
 {
     [Tooltip("The first target (A) for the GameObject to move towards.")]
     public Transform targetA;
@@ -59,6 +67,12 @@ public class timmy_mover : MonoBehaviour
 
     public void NotifyDogReturned()
     {
+        if (globalVariables.TimmyReturned == true)
+        {
+            Debug.Log("timmy_mover: NotifyDogReturned called but GlobalVariables.TimmyReturned is already true.", this);
+            return;
+        }
+
         if (_state == TimmyState.WaitingAtB)
         {
             dogReturned = true;
@@ -108,6 +122,20 @@ public class timmy_mover : MonoBehaviour
 
     void Update()
     {
+
+        if (GlobalVariables.TimmyReturned)
+        {
+            Destroy(this);
+
+            if (_state == TimmyState.WaitingAtB) _state = TimmyState.ReturningToA;
+        
+
+            NotifyDogReturned();
+
+        }
+
+
+
         // Set walker animation based on active movement state
         bool isWalking = IsMovingState;
 
@@ -135,6 +163,11 @@ public class timmy_mover : MonoBehaviour
         {
             Debug.Log("timmy_mover: StoppedAtA, no movement.", this);
             return;
+        }
+        
+        if (GlobalVariables.TimmyReturned == true)
+        { _state = TimmyState.ReturningToA;
+        return;
         }
 
         Transform currentTarget = GetCurrentTarget();
@@ -182,15 +215,16 @@ public class timmy_mover : MonoBehaviour
 
     private Transform GetCurrentTarget()
     {
+        
         switch (_state)
         {
-            case TimmyState.ReturningToA:
-                return targetA;
-            case TimmyState.GoingToB:
-            case TimmyState.WaitingAtB:
-                return targetB;
-            default:
-                return null;
+        case TimmyState.ReturningToA:
+            return targetA;
+        case TimmyState.GoingToB:
+        case TimmyState.WaitingAtB:
+            return targetB;
+        default:
+            return null;
         }
     }
 
@@ -207,8 +241,7 @@ public class timmy_mover : MonoBehaviour
 
     private void TryTriggerDogReturnOnCollision(GameObject other)
     {
-        if (_state != TimmyState.WaitingAtB)
-            return;
+        if (_state != TimmyState.WaitingAtB) return;
 
         var dog = other.GetComponent<dog_mover>();
         if (dog == null)

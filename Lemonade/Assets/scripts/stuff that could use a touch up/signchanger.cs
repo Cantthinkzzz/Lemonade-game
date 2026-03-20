@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using globalVariables = GlobalVariables; // Alias to avoid confusion with the class name
 
 
 public static class GlobalVariables
 {
     public static bool DogRanAway = false;
+    public static bool TimmyReturned = false;
 }
 public class signchanger : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class signchanger : MonoBehaviour
 
     [Tooltip("Reference to the player PickupScript (inventory tracker).")]
     public PickupScript playerPickupScript;
+
 
     private Renderer _renderer;
     private Material _originalMaterial;
@@ -106,6 +109,8 @@ public class signchanger : MonoBehaviour
         _renderer.material = successMaterial;
         _hasChanged = true;
         Debug.Log($"signchanger: required item '{requiredItemId}' found, material changed.", this);
+
+        GlobalVariables.TimmyReturned= true; // Set the global variable here
     }
 
     private void OnDisable()

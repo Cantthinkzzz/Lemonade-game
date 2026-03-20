@@ -370,6 +370,9 @@
 "Assets/scripts/stuff that could use a touch up/signchanger.cs"
 "Assets/scripts/stuff that could use a touch up/SpriteFacing.cs"
 "Assets/scripts/stuff that could use a touch up/timmy_mover.cs"
+"Assets/scripts/timmytalk.cs"
+"Assets/timmymover2.cs"
+"Assets/timmyteleport.cs"
 -langversion:9.0
 /deterministic
 /optimize+

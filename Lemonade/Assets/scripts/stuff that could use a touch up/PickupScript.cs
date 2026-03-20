@@ -4,6 +4,8 @@ using UnityEngine.AI;
 
 public class PickupScript : MonoBehaviour
 {
+
+
     [Header("References")]
     [SerializeField] private Camera cam;
     [SerializeField] private NavMeshAgent agent;
@@ -37,6 +39,7 @@ public class PickupScript : MonoBehaviour
 
     private Transform currentTarget;
 
+public Animator playerAnimator;
     private void Awake()
     {
         if (cam == null)
@@ -83,6 +86,11 @@ public class PickupScript : MonoBehaviour
         float distanceToTarget = Vector3.Distance(transform.position, currentTarget.position);
         if (distanceToTarget <= pickUpDistance || agent.remainingDistance <= agent.stoppingDistance)
         {
+
+
+if (currentTarget.name == "plane" && !collectedItemIds.Contains("stick")) return;
+            
+
             PickupCurrentTarget();
         }
     }
@@ -104,6 +112,7 @@ public class PickupScript : MonoBehaviour
         currentTarget = null;
 
         hasItem = collectedItemIds.Count > 0;
+
     }
 }
 
