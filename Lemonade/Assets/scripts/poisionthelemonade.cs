@@ -14,6 +14,7 @@ public static class GlobalVariables
     public static bool PoisionedLemonade = false;
 
     public static bool TimmyPlaneGiven = false;
+    
 }
 
 public class poisionthelemonade : MonoBehaviour
@@ -37,6 +38,8 @@ public class poisionthelemonade : MonoBehaviour
     private Material _originalMaterial;
     private Renderer _renderer;
     private bool _hasTriggered;
+
+    public Animator lemonadeanimator;
 
     private void Awake()
     {
@@ -78,8 +81,7 @@ Debug.LogWarning("Aaaaaaaa", this);
 {
     _hasTriggered = true;
 
-    if (_renderer != null && successMaterial != null)
-        _renderer.material = successMaterial;
+    lemonadeanimator.SetTrigger("Poisioned");
 
     Debug.Log($"GiveMeTheBox: player used '{requiredItemId}' on '{name}'", this);
 
