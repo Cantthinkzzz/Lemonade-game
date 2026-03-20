@@ -108,6 +108,9 @@ public class GiveMeTheBox : MonoBehaviour
     // Update the global variable
     GlobalVariables.DogRanAway = true; // Add this line
 
+    GlobalVariables.specialEventActive = true; // Example: trigger special dialogues to start happening
+    
+
     if (dogMover != null)
     {
         dogMover.DogRanAway = true;

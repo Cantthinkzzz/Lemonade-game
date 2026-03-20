@@ -16,7 +16,9 @@ public static class GlobalVariables
     public static bool TimmyPlaneGiven = false;
 
     public static bool istalking = false;
-    
+
+    public static bool specialEventActive = false;
+    public static bool afterEventTriggered = false;
 }
 
 public class poisionthelemonade : MonoBehaviour

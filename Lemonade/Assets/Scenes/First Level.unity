@@ -1259,7 +1259,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogues:
   - {fileID: 11400000, guid: 90c9eedddf53a0a47bc2ab20bef073c1, type: 2}
+  dialoguesspecial: []
+  dialoguesafter: []
   currentDialogueIndex: 0
+  currentDialogueIndexspecial: 0
+  currentDialogueIndexafter: 0
 --- !u!65 &543340330
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3499,7 +3503,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3c0084d33e1c4bb4f8b29a12a529c8ac, type: 2}
   - {fileID: 11400000, guid: 586283158ebe5ab49b2c7221f59a544d, type: 2}
   - {fileID: 11400000, guid: 6235ebdd2acb9fa479221c5856253af5, type: 2}
+  dialoguesspecial: []
+  dialoguesafter: []
   currentDialogueIndex: 0
+  currentDialogueIndexspecial: 0
+  currentDialogueIndexafter: 0
 --- !u!65 &1446144197
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3881,7 +3889,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 78a2b010aedeae34b9e9e305f2bb533d, type: 2}
   - {fileID: 11400000, guid: 4d7c9042ce9a7134684b3b4b4477c268, type: 2}
   - {fileID: 11400000, guid: 6ae2e6107d70fce40b84d1d5adf6a342, type: 2}
+  dialoguesspecial: []
+  dialoguesafter: []
   currentDialogueIndex: 0
+  currentDialogueIndexspecial: 0
+  currentDialogueIndexafter: 0
 --- !u!65 &1479424279
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4097,7 +4109,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogues:
   - {fileID: 11400000, guid: 75b7b50949bc2d548aac2484fd8c48fe, type: 2}
+  dialoguesspecial: []
+  dialoguesafter: []
   currentDialogueIndex: 0
+  currentDialogueIndexspecial: 0
+  currentDialogueIndexafter: 0
 --- !u!1 &1504132343
 GameObject:
   m_ObjectHideFlags: 0
@@ -4632,7 +4648,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogues:
   - {fileID: 11400000, guid: 70142dd6dd1353e43902b9373b9b01d6, type: 2}
+  dialoguesspecial: []
+  dialoguesafter: []
   currentDialogueIndex: 0
+  currentDialogueIndexspecial: 0
+  currentDialogueIndexafter: 0
 --- !u!1 &1621411169
 GameObject:
   m_ObjectHideFlags: 0
@@ -5119,7 +5139,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogues:
   - {fileID: 11400000, guid: 88531087b0424d74c8b4423ecc6286f6, type: 2}
+  dialoguesspecial: []
+  dialoguesafter: []
   currentDialogueIndex: 0
+  currentDialogueIndexspecial: 0
+  currentDialogueIndexafter: 0
 --- !u!1 &1672188259
 GameObject:
   m_ObjectHideFlags: 0
@@ -5480,7 +5504,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogues:
   - {fileID: 11400000, guid: 94f1460de43cf5a448f1189b638e0757, type: 2}
+  dialoguesspecial:
+  - {fileID: 11400000, guid: b235434ad739601429ca49405e07d84c, type: 2}
+  dialoguesafter: []
   currentDialogueIndex: 0
+  currentDialogueIndexspecial: 0
+  currentDialogueIndexafter: 0
 --- !u!1 &1802747721
 GameObject:
   m_ObjectHideFlags: 0
@@ -5923,7 +5952,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogues:
   - {fileID: 11400000, guid: 8febbc5d87b4720488237685a85ceb5f, type: 2}
+  dialoguesspecial: []
+  dialoguesafter: []
   currentDialogueIndex: 0
+  currentDialogueIndexspecial: 0
+  currentDialogueIndexafter: 0
 --- !u!1 &1853713431
 GameObject:
   m_ObjectHideFlags: 0
@@ -6507,7 +6540,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogues:
   - {fileID: 11400000, guid: cf9222f3fc4048447acb8e4b921a2fda, type: 2}
+  dialoguesspecial: []
+  dialoguesafter: []
   currentDialogueIndex: 0
+  currentDialogueIndexspecial: 0
+  currentDialogueIndexafter: 0
 --- !u!1 &2024739198
 GameObject:
   m_ObjectHideFlags: 0
@@ -9017,7 +9054,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogues:
   - {fileID: 11400000, guid: 11656c95fef3ffc47b199ab7c1947f27, type: 2}
+  dialoguesspecial: []
+  dialoguesafter: []
   currentDialogueIndex: 0
+  currentDialogueIndexspecial: 0
+  currentDialogueIndexafter: 0
 --- !u!23 &7055616608987019566
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9778,7 +9819,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a2b1ab0030311494a9af13c58fdcd21c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.2
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0

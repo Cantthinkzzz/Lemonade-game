@@ -44,39 +44,48 @@ namespace RedstoneinventeGameStudio
         }
 
         IEnumerator ShowDialogueC(NPCManager nPCManager)
+        
+{
+    var current = nPCManager.GetCurrentDialogue();
+    if (current == null)
+    {
+        dialogueCanvas.enabled = false;
+        yield break;
+    }
+
+    title.text = current.title;
+    content.text = "";
+
+    dialogueCanvas.enabled = true;
+
+    foreach (char character in current.lines)
+    {
+        content.text += character;
+        yield return new WaitForSeconds(IsPunctuation(character) ? punctuationDelay : characterDelay);
+
+        if (content.textInfo.wordCount >= maxWords && (character == ' ' || IsPunctuation(character) || character == ','))
         {
-            title.text = nPCManager.dialogues[nPCManager.currentDialogueIndex].title;
-            content.text = "";
-
-            dialogueCanvas.enabled = true;
-
-            foreach (char character in nPCManager.dialogues[nPCManager.currentDialogueIndex].lines)
-            {
-                content.text += character;
-                yield return new WaitForSeconds(IsPunctuation(character) ? punctuationDelay : characterDelay);
-
-                if (content.textInfo.wordCount >= maxWords && (character == ' ' || IsPunctuation(character) || character == ','))
-                {
-                    moveNextButt.SetActive(true);
-                    yield return new WaitUntil(() => moveNext);
-
-                    content.text = "";
-                    moveNextButt.SetActive(false);
-                    moveNext = false;
-                }
-            }
-
             moveNextButt.SetActive(true);
             yield return new WaitUntil(() => moveNext);
 
             content.text = "";
             moveNextButt.SetActive(false);
             moveNext = false;
-
-            dialogueCanvas.enabled = false;
-
-            nPCManager.MoveNext();
         }
+    }
+
+    moveNextButt.SetActive(true);
+    yield return new WaitUntil(() => moveNext);
+
+    content.text = "";
+    moveNextButt.SetActive(false);
+    moveNext = false;
+
+    dialogueCanvas.enabled = false;
+
+    nPCManager.AdvanceIndexForCurrentList();
+}
+        
 
         bool IsPunctuation(char character)
         {
