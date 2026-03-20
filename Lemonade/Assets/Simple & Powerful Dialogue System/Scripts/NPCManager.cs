@@ -10,89 +10,74 @@ namespace RedstoneinventeGameStudio
         public List<NPCDialogueSO> dialoguesspecial;
         public List<NPCDialogueSO> dialoguesafter;
 
-        public int currentDialogueIndex = 0;
-        public int currentDialogueIndexspecial = 0;
-        public int currentDialogueIndexafter = 0;
+        private int indexBefore = 0;
+        private int indexSpecial = 0;
+        private int indexAfter = 0;
 
-        [Header("Runtime flags")]
-        public bool specialActiveForThisNPC = false;
-        public bool afterActiveForThisNPC = false;
-
-        // Priority: special -> after -> normal
-        bool UseSpecial() => specialActiveForThisNPC || globalVariables.specialEventActive;
-        bool UseAfter() => afterActiveForThisNPC || globalVariables.afterEventTriggered;
-
-        // Public method to enable special dialogue for this NPC (call from other scripts)
-        public void EnableSpecialForThisNPC()
+        public enum State
         {
-            specialActiveForThisNPC = true;
+            Before,
+            Special,
+            After
         }
 
-        // Public method to enable after-dialogue for this NPC
-        public void EnableAfterForThisNPC()
+        public State currentState = State.Before;
+
+        public void EnableSpecial()
         {
-            afterActiveForThisNPC = true;
+            currentState = State.Special;
+            indexSpecial = 0;
         }
 
         public NPCDialogueSO GetCurrentDialogue()
         {
-            if (UseSpecial() && dialoguesspecial != null && dialoguesspecial.Count > 0)
+            switch (currentState)
             {
-                currentDialogueIndexspecial = Mathf.Clamp(currentDialogueIndexspecial, 0, Mathf.Max(0, dialoguesspecial.Count - 1));
-                return dialoguesspecial[currentDialogueIndexspecial];
-            }
+                case State.Special:
+                    return dialoguesspecial.Count > 0
+                        ? dialoguesspecial[Mathf.Clamp(indexSpecial, 0, dialoguesspecial.Count - 1)]
+                        : null;
 
-            if (UseAfter() && dialoguesafter != null && dialoguesafter.Count > 0)
-            {
-                currentDialogueIndexafter = Mathf.Clamp(currentDialogueIndexafter, 0, Mathf.Max(0, dialoguesafter.Count - 1));
-                return dialoguesafter[currentDialogueIndexafter];
-            }
+                case State.After:
+                    return dialoguesafter.Count > 0
+                        ? dialoguesafter[Mathf.Clamp(indexAfter, 0, dialoguesafter.Count - 1)]
+                        : null;
 
-            if (dialogues != null && dialogues.Count > 0)
-            {
-                currentDialogueIndex = Mathf.Clamp(currentDialogueIndex, 0, Mathf.Max(0, dialogues.Count - 1));
-                return dialogues[currentDialogueIndex];
+                default:
+                    return dialogues.Count > 0
+                        ? dialogues[Mathf.Clamp(indexBefore, 0, dialogues.Count - 1)]
+                        : null;
             }
-
-            return null;
         }
 
-        public void AdvanceIndexForCurrentList()
+        public void Advance()
         {
-            if (UseSpecial() && dialoguesspecial != null && dialoguesspecial.Count > 0)
+            switch (currentState)
             {
-                currentDialogueIndexspecial = (currentDialogueIndexspecial + 1) % dialoguesspecial.Count;
+                case State.Special:
+                    indexSpecial++;
 
-                // If you want special to be one-shot, disable after exhausting:
-                if (currentDialogueIndexspecial == 0)
-                    specialActiveForThisNPC = false;
+                    if (indexSpecial >= dialoguesspecial.Count)
+                    {
+                        currentState = State.After;
+                        indexAfter = 0;
+                    }
+                    break;
 
-                return;
-            }
+                case State.After:
+                    if (indexAfter < dialoguesafter.Count - 1)
+                        indexAfter++;
+                    break;
 
-            if (UseAfter() && dialoguesafter != null && dialoguesafter.Count > 0)
-            {
-                currentDialogueIndexafter = (currentDialogueIndexafter + 1) % dialoguesafter.Count;
-
-                if (currentDialogueIndexafter == 0)
-                    afterActiveForThisNPC = false;
-
-                return;
-            }
-
-            if (dialogues != null && dialogues.Count > 0)
-            {
-                currentDialogueIndex = (currentDialogueIndex + 1) % dialogues.Count;
+                case State.Before:
+                    indexBefore = (indexBefore + 1) % dialogues.Count;
+                    break;
             }
         }
 
         private void OnMouseUp()
         {
-            if (globalVariables.istalking == true)
-            {
-                return;
-            }
-
+            if (globalVariables.istalking) return;
             DialogueManager.instance.ShowDialogue(this);
         }
     }
