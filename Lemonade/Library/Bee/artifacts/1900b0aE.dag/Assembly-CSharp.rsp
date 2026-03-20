@@ -361,6 +361,8 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"C:/Program Files/Unity/Hub/Editor/2022.3.62f3/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
 "Assets/Scenes/new scene.cs"
+"Assets/scripts/audioplayer.cs"
+"Assets/scripts/audioplayer1.cs"
 "Assets/scripts/beguildethechild.cs"
 "Assets/scripts/PlayerMover.cs"
 "Assets/scripts/poisionthelemonade.cs"
