@@ -33,12 +33,12 @@ public class AudioControl1 : MonoBehaviour
         }
     }
 
-    void update()
+    void Update()
     {
-        if (!globalVariables.TimmyPlaneGiven)
-        {
-            StopAudio();
-        }
+        //if (!globalVariables.TimmyPlaneGiven)
+        //{
+        //    StopAudio();
+        //}
         
         if (globalVariables.TimmyPlaneGiven)
         {

@@ -31,7 +31,7 @@ public class AudioControl : MonoBehaviour
         }
     }
 
-    void update()
+    void Update()
     {
         if (globalVariables.TimmyPlaneGiven)
         {
