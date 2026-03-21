@@ -53,6 +53,13 @@ public class poisionthelemonade : MonoBehaviour
 
         if (playerPickupScript == null)
             Debug.LogWarning("GiveMeTheBox: playerPickupScript is not assigned.", this);
+            if(globalVariables.afterEventTriggered == true)globalVariables.afterEventTriggered = false;
+            if(globalVariables.DogRanAway == true)globalVariables.DogRanAway = false;
+            if(globalVariables.istalking == true)globalVariables.istalking = false;
+            if(globalVariables.PoisionedLemonade == true)globalVariables.PoisionedLemonade = false;
+            if(globalVariables.specialEventActive == true)globalVariables.specialEventActive = false;
+            if(globalVariables.TimmyPlaneGiven == true)globalVariables.TimmyPlaneGiven = false;
+            if(globalVariables.TimmyReturned == true)globalVariables.TimmyReturned = false;
     }
 
 
